@@ -30,20 +30,17 @@ const routes = [
         path: 'round',
         component: () => import('../views/movie/round/index.vue')
       },
-      {
-        path: 'say',
-        component: () => import('../views/movie/say/index.vue')
-      },
-      {
-        path: 'people',
-        component: () => import('../views/movie/people/index.vue')
-      }
     ]
   },
   {
     path: '/cinema',
     name: 'cinema',
     component: () => import('../views/cinema/index.vue')
+  },
+  {
+    path: '/city',
+    name: 'City',
+    component: () => import('../views/city/index.vue')
   },
   {
     path: '/ask',

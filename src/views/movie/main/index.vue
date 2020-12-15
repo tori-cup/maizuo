@@ -1,80 +1,123 @@
 <template>
     <div id="main">
-        <van-swipe :autoplay="1000">
-            <van-swipe-item v-for="(image, index) in images" :key="image">
-                <img v-lazy="image" />
-            </van-swipe-item>
-        </van-swipe>
-        <van-grid :column-num="3">
-            <van-grid-item icon="cart-circle" text="超市">
-                <van-icon name="shop" color="#aaa" size="30px" />
-            </van-grid-item>
-            <van-grid-item icon="cart-circle" text="热门">
-                <van-icon name="fire" color="#1ac45d" size="30px" />
-            </van-grid-item>
-            <van-grid-item icon="cart-circle" text="礼物">
-                <van-icon name="gift" color="#dac45d" size="30px" />
-            </van-grid-item>
-            <van-grid-item icon="cart-circle" text="数码">
-                <van-icon name="service" color="#78acb0" size="30px" />
-            </van-grid-item>
-            <van-grid-item icon="cart-circle" text="好物">
-                <van-icon name="good-job" color="#ddd" size="30px" />
-            </van-grid-item>
-            <van-grid-item icon="cart-circle" text="新品">
-                <van-icon name="new-arrival" color="#f15365" size="30px" />
-            </van-grid-item>
-            </van-swipe-item>
-
-        </van-grid>
+         <ul  class="kapian" v-for="item in hotlist" :key="item.filmId">
+            <li class="tupian"><img :src="item.poster" alt="">
+            </li>
+             <li class="wenzi">
+                 <h4>{{item.name}}</h4>
+                 <p>{{item.grade}}</p>
+                 <p class="zhuyan">主演：<span v-for="item in item.actors" :key="item.id">{{item.name}}</span></p>
+                 <p>{{item.nation}}|<span>{{item.runtime}}</span></p>
+             </li>
+             <li class="goumai">
+                 <button>购票</button>
+             </li>
+        </ul>
     </div>
 </template>
 
 <script>
+import axios from "axios";
+import { GridItem } from 'vant';
+import {setToken} from '../../../util/cookie'
 export default {
-    data() {
-        return {
-            images: [
-                '//img10.360buyimg.com/babel/s1180x940_jfs/t1/139909/20/17733/140763/5fd0a877E79d39f8d/df0fbd261e24c5c5.jpg.webp',
-                'https://img.yzcdn.cn/vant/apple-2.jpg',
-                '//img12.360buyimg.com/pop/s1180x940_jfs/t1/151140/33/8873/86453/5fc6020aE3db37807/4bf59ed01cefe954.jpg.webp',
-                '//img30.360buyimg.com/pop/s1180x940_jfs/t1/148503/38/15694/94091/5fbe0950Ee2b630f1/ff6a4762180a4698.jpg.webp',
-                '//img11.360buyimg.com/pop/s1180x940_jfs/t1/155786/29/88/86932/5fd4895aE6c0f7501/db8d0b89b45cb91a.jpg.webp'
-            ],
-        };
+  name: "Film",
+  data() {
+    return {
+      activeName: "first",
+      looplist: "",
+      hotlist: "",
+    };
+  },
+  filters: {
+    formatDate: function(value) {
+      let week = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+      let date = new Date(Number(value) * 1000);
+      // let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? "0" + MM : MM;
+      let d = date.getDate();
+      d = d < 10 ? "0" + d : d;
+      // let h = date.getHours();
+      // h = h < 10 ? ('0' + h) : h;
+      // let m = date.getMinutes();
+      // m = m < 10 ? ('0' + m) : m;
+      // let s = date.getSeconds();
+      // s = s < 10 ? ('0' + s) : s;
+      let w = week[date.getDay()];
+      return w + "" + MM + "月" + d + "日";
+      // return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s+'-'+w;
     },
-    computed: {},
-    watch: {},
-    methods: {
-    },
-    created() { },
-    mounted() { },
-    beforeCreate() { },
-    beforeMount() { },
-    beforeUpdate() { },
-    updated() { },
-    beforeDestroy() { },
-    destroyed() { },
-    activated() { },
-    components: {
-    },
+  },
+  created() {
+    /* axios({
+        url: "https://m.maizuo.com/gateway?cityId=410100&pageNum=1&pageSize=10&type=1&k=2325598",
+        headers: {
+          "X-Client-Info":
+            '{"a":"3000","ch":"1002","v":"5.0.4","e":"15610855429195524981146"}',
+          "X-Host": "mall.cfg.common-banner",
+        },
+      }).then((res) => {
+        this.looplist=res.data.data
+      }); */
+    axios({
+      url:
+        "https://m.maizuo.com/gateway?cityId=410100&pageNum=1&pageSize=10&type=1&k=2325598",
+      headers: {
+        "X-Client-Info":
+          '{"a":"3000","ch":"1002","v":"5.0.4","e":"1606908525779884456574977","bc":"410100"}',
+        "X-Host": "mall.film-ticket.film.list",
+      },
+    }).then((res) => {
+      this.hotlist = res.data.data.films;
+    //   console.log(this.hotlist)
+    });
+    
+  },
+
+  /* mounted() {
+    window.addEventListener('scroll',this.handleScroll,true)
+  },
+ methods: {
+  handleScroll(){
+      let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+      console.log(scrollTop);
+    }
+} */
+
 };
 </script>
 
+
 <style lang="scss" scoped>
-.van-swipe {
-    width: 100%;
-    height: 200px;
+.kapian{
+    width:100%;
+    min-height: 2rem;
+    margin-left: 1rem;
+    margin: 0.5rem auto;
+    // background: yellow;
+    border-bottom: solid 1px rgb(204, 202, 202);
 }
-
-img {
-    width: 100%;
-    height: 200px;
+.kapian li{
+    float: left;
 }
-
-// i {
-//     display: block;
-//     width: 50px;
-//     height: 50px;
-// }
+.tupian img{
+    width: 5rem;
+}
+.wenzi{
+    margin-top: 0.5rem ;
+    width: 14.315rem;
+    margin-left:0.5rem ;
+}
+.zhuyan{
+    width: 14rem;
+ overflow: hidden;
+ white-space:nowrap;
+text-overflow: ellipsis;
+}
+.goumai button{ 
+    margin-top: 2.8rem;
+    color: red;  
+    border: solid 1px red;
+}
 </style>

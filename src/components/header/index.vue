@@ -1,5 +1,5 @@
 <template>
-  <header id="">
+  <header id="header">
     <!-- <van-nav-bar title="标题" right-text="按钮" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
             <template #right>
               <van-icon name="search" size="18" />
