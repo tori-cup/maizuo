@@ -1,14 +1,16 @@
 <template>
     <div id="main">
-         <ul  class="kapian" v-for="item in hotlist" :key="item.filmId">
-            <li class="tupian"><img :src="item.poster" alt="">
+         <ul class="kapian" v-for="item in hotlist" :key="item.filmId">
+            
+              <li @click="clickHandel" class="tupian"><img :src="item.poster" alt="">
             </li>
-             <li class="wenzi">
+             <li class="wenzi" @click="clickHandel">
                  <h4>{{item.name}}</h4>
                  <p>{{item.grade}}</p>
                  <p class="zhuyan">主演：<span v-for="item in item.actors" :key="item.id">{{item.name}}</span></p>
                  <p>{{item.nation}}|<span>{{item.runtime}}</span></p>
              </li>
+            
              <li class="goumai">
                  <button>购票</button>
              </li>
@@ -60,6 +62,7 @@ export default {
       }).then((res) => {
         this.looplist=res.data.data
       }); */
+      
     axios({
       url:
         "https://m.maizuo.com/gateway?cityId=410100&pageNum=1&pageSize=10&type=1&k=2325598",
@@ -72,7 +75,7 @@ export default {
       this.hotlist = res.data.data.films;
     //   console.log(this.hotlist)
     });
-    
+   
   },
 
   /* mounted() {
@@ -84,7 +87,14 @@ export default {
       console.log(scrollTop);
     }
 } */
-
+  methods:{
+    clickHandel(id){
+      console.log(111)
+      this.$router.push({
+        name:''
+      })
+    }
+  }
 };
 </script>
 
@@ -117,7 +127,8 @@ text-overflow: ellipsis;
 }
 .goumai button{ 
     margin-top: 2.8rem;
-    color: red;  
-    border: solid 1px red;
+    color: #ff5f16; 
+    background-color: #fff;
+    border: solid 1px #ff5f16;
 }
 </style>

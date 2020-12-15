@@ -94,4 +94,9 @@ export default {
   margin: 0;
   padding: 0;
 }
+#app{
+  display: flex;
+  // align-items: ;
+  justify-content: center;
+}
 </style>

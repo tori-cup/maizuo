@@ -1,12 +1,12 @@
 <template>
     <div id="main">
          <ul class="kapian" v-for="item in showlist" :key="item.filmId">
-            <li class="tupian"><img :src="item.poster" alt="">
+            <li @click="clickHandel" class="tupian"><img :src="item.poster" alt="">
             </li>
-             <li class="wenzi">
+             <li @click="clickHandel" class="wenzi">
                  <h4>{{item.name}}</h4>
                  <p class="zhuyan">主演：<span v-for="item in item.actors" :key="item.id">{{item.name}}</span></p>
-                 <p>{{item.nation}}|<span>{{item.runtime}}</span></p>
+                 <p>上映日期：<span>{{item.premiereAt | formatDate}}</span></p>
              </li>
              <li class="goumai">
                  <button >预约</button>
@@ -67,20 +67,26 @@ export default {
         "X-Host": "mall.film-ticket.film.list",
       },
     }).then((res) => {
-    //   console.log(res.data.data.films);
+      // console.log(res.data.data.films);
       this.showlist = res.data.data.films;
     });
   },
 
-  /* mounted() {
-    window.addEventListener('scroll',this.handleScroll,true)
-  },
+  //  mounted() {
+  //   window.addEventListener('scroll',this.handleScroll,true)
+  // },
  methods: {
-  handleScroll(){
-      let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-      console.log(scrollTop);
+  // handleScroll(){
+  //     let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+  //     console.log(scrollTop);
+  //   }
+  clickHandel(id){
+    console.log(id)
+      this.$router.push({
+        name:''
+      })
     }
-} */
+  } 
 };
 </script>
 
@@ -114,7 +120,8 @@ text-overflow: ellipsis;
 }
 .goumai button{ 
     margin-top: 2.8rem;
-    color: red;  
-    border: solid 1px red;
+    color: #ff5f16;  
+    background-color: #fff;
+    border: solid 1px #ff5f16;
 }
 </style>
