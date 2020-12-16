@@ -1,10 +1,10 @@
 <template>
   <div id="main">
     <ul class="kapian" v-for="item in showlist" :key="item.filmId">
-      <li @click="clickHandel" class="tupian">
+      <li @click="clickHandel(item.filmId)" class="tupian">
         <img :src="item.poster" alt="" />
       </li>
-      <li @click="clickHandel" class="wenzi">
+      <li @click="clickHandel(item.filmId)" class="wenzi">
         <h4>{{ item.name }}</h4>
         <p class="zhuyan">
           主演：<span v-for="item in item.actors" :key="item.id">{{

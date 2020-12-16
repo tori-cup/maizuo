@@ -1,10 +1,10 @@
 <template>
   <div id="main">
     <ul class="kapian" v-for="item in hotlist" :key="item.filmId">
-      <li @click="clickHandel" class="tupian">
+      <li @click="clickHandel(item.filmId)" class="tupian">
         <img :src="item.poster" alt="" />
       </li>
-      <li class="wenzi" @click="clickHandel">
+      <li class="wenzi" @click="clickHandel(item.filmId)">
         <h4>{{ item.name }}</h4>
         <p>{{ item.grade }}</p>
         <p class="zhuyan">
