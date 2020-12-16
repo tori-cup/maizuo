@@ -1,18 +1,25 @@
 <template>
-    <div id="main">
-         <ul class="kapian" v-for="item in showlist" :key="item.filmId">
-            <li @click="clickHandel" class="tupian"><img :src="item.poster" alt="">
-            </li>
-             <li @click="clickHandel" class="wenzi">
-                 <h4>{{item.name}}</h4>
-                 <p class="zhuyan">主演：<span v-for="item in item.actors" :key="item.id">{{item.name}}</span></p>
-                 <p>上映日期：<span>{{item.premiereAt | formatDate}}</span></p>
-             </li>
-             <li class="goumai">
-                 <button >预约</button>
-             </li>
-        </ul>
-    </div>
+  <div id="main">
+    <ul class="kapian" v-for="item in showlist" :key="item.filmId">
+      <li @click="clickHandel" class="tupian">
+        <img :src="item.poster" alt="" />
+      </li>
+      <li @click="clickHandel" class="wenzi">
+        <h4>{{ item.name }}</h4>
+        <p class="zhuyan">
+          主演：<span v-for="item in item.actors" :key="item.id">{{
+            item.name
+          }}</span>
+        </p>
+        <p>
+          上映日期：<span>{{ item.premiereAt | formatDate }}</span>
+        </p>
+      </li>
+      <li class="goumai">
+        <button>预约</button>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -58,7 +65,7 @@ export default {
       }).then((res) => {
         this.looplist=res.data.data
       }); */
-     axios({
+    axios({
       url:
         "https://m.maizuo.com/gateway?cityId=440300&pageNum=1&pageSize=10&type=2&k=5915652",
       headers: {
@@ -75,53 +82,53 @@ export default {
   //  mounted() {
   //   window.addEventListener('scroll',this.handleScroll,true)
   // },
- methods: {
-  // handleScroll(){
-  //     let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-  //     console.log(scrollTop);
-  //   }
-  clickHandel(id){
-    console.log(id)
+  methods: {
+    // handleScroll(){
+    //     let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    //     console.log(scrollTop);
+    //   }
+    clickHandel(id) {
+      console.log(id);
       this.$router.push({
-        name:''
-      })
-    }
-  } 
+        path: "movie/detail",
+        query: { id: id },
+      });
+    },
+  },
 };
 </script>
 
-
 <style lang="scss" scoped>
-.kapian{
-    width:100%;
-    min-height: 2rem;
-    margin-left: 1rem;
-    margin: 0.5rem auto;
-    // background: yellow;
-    border-bottom: solid 1px rgb(204, 202, 202);
+.kapian {
+  width: 100%;
+  min-height: 2rem;
+  margin-left: 1rem;
+  margin: 0.5rem auto;
+  // background: yellow;
+  border-bottom: solid 1px rgb(204, 202, 202);
 }
-.kapian li{
-    float: left;
+.kapian li {
+  float: left;
 }
-.tupian img{
-    width: 5rem;
+.tupian img {
+  width: 5rem;
 }
-.wenzi{
-    margin-top: 0.5rem ;
-    width: 14.315rem;
-    margin-left:0.5rem ;
+.wenzi {
+  margin-top: 0.5rem;
+  width: 14.315rem;
+  margin-left: 0.5rem;
 }
-.zhuyan{
-    margin-top: 2rem;
-    width: 14rem;
- overflow: hidden;
- white-space:nowrap;
-text-overflow: ellipsis;
+.zhuyan {
+  margin-top: 2rem;
+  width: 14rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-.goumai button{ 
-    margin-top: 2.8rem;
-    color: #ff5f16;  
-    background-color: #fff;
-    border: solid 1px #ff5f16;
+.goumai button {
+  margin-top: 2.8rem;
+  color: #ff5f16;
+  background-color: #fff;
+  border: solid 1px #ff5f16;
 }
 </style>

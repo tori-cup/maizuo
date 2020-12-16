@@ -1,27 +1,33 @@
 <template>
-    <div id="main">
-         <ul class="kapian" v-for="item in hotlist" :key="item.filmId">
-            
-              <li @click="clickHandel" class="tupian"><img :src="item.poster" alt="">
-            </li>
-             <li class="wenzi" @click="clickHandel">
-                 <h4>{{item.name}}</h4>
-                 <p>{{item.grade}}</p>
-                 <p class="zhuyan">主演：<span v-for="item in item.actors" :key="item.id">{{item.name}}</span></p>
-                 <p>{{item.nation}}|<span>{{item.runtime}}</span></p>
-             </li>
-            
-             <li class="goumai">
-                 <button>购票</button>
-             </li>
-        </ul>
-    </div>
+  <div id="main">
+    <ul class="kapian" v-for="item in hotlist" :key="item.filmId">
+      <li @click="clickHandel" class="tupian">
+        <img :src="item.poster" alt="" />
+      </li>
+      <li class="wenzi" @click="clickHandel">
+        <h4>{{ item.name }}</h4>
+        <p>{{ item.grade }}</p>
+        <p class="zhuyan">
+          主演：<span v-for="item in item.actors" :key="item.id">{{
+            item.name
+          }}</span>
+        </p>
+        <p>
+          {{ item.nation }}|<span>{{ item.runtime }}</span>
+        </p>
+      </li>
+
+      <li class="goumai">
+        <button>购票</button>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
-import { GridItem } from 'vant';
-import {setToken} from '../../../util/cookie'
+import { GridItem } from "vant";
+import { setToken } from "../../../util/cookie";
 export default {
   name: "Film",
   data() {
@@ -62,7 +68,7 @@ export default {
       }).then((res) => {
         this.looplist=res.data.data
       }); */
-      
+
     axios({
       url:
         "https://m.maizuo.com/gateway?cityId=410100&pageNum=1&pageSize=10&type=1&k=2325598",
@@ -73,9 +79,8 @@ export default {
       },
     }).then((res) => {
       this.hotlist = res.data.data.films;
-    //   console.log(this.hotlist)
+      //   console.log(this.hotlist)
     });
-   
   },
 
   /* mounted() {
@@ -87,48 +92,48 @@ export default {
       console.log(scrollTop);
     }
 } */
-  methods:{
-    clickHandel(id){
-      console.log(111)
+  methods: {
+    clickHandel(id) {
+      console.log(111);
       this.$router.push({
-        name:''
-      })
-    }
-  }
+        path: "movie/detail",
+        query: { id: id },
+      });
+    },
+  },
 };
 </script>
 
-
 <style lang="scss" scoped>
-.kapian{
-    width:100%;
-    min-height: 2rem;
-    margin-left: 1rem;
-    margin: 0.5rem auto;
-    // background: yellow;
-    border-bottom: solid 1px rgb(204, 202, 202);
+.kapian {
+  width: 100%;
+  min-height: 2rem;
+  margin-left: 1rem;
+  margin: 0.5rem auto;
+  // background: yellow;
+  border-bottom: solid 1px rgb(204, 202, 202);
 }
-.kapian li{
-    float: left;
+.kapian li {
+  float: left;
 }
-.tupian img{
-    width: 5rem;
+.tupian img {
+  width: 5rem;
 }
-.wenzi{
-    margin-top: 0.5rem ;
-    width: 14.315rem;
-    margin-left:0.5rem ;
+.wenzi {
+  margin-top: 0.5rem;
+  width: 14.315rem;
+  margin-left: 0.5rem;
 }
-.zhuyan{
-    width: 14rem;
- overflow: hidden;
- white-space:nowrap;
-text-overflow: ellipsis;
+.zhuyan {
+  width: 14rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-.goumai button{ 
-    margin-top: 2.8rem;
-    color: #ff5f16; 
-    background-color: #fff;
-    border: solid 1px #ff5f16;
+.goumai button {
+  margin-top: 2.8rem;
+  color: #ff5f16;
+  background-color: #fff;
+  border: solid 1px #ff5f16;
 }
 </style>
