@@ -96,7 +96,7 @@ export default {
     clickHandel(id) {
       console.log(111);
       this.$router.push({
-        path: "movie/detail",
+        path: "detail",
         query: { id: id },
       });
     },
