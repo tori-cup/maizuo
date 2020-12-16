@@ -1,52 +1,52 @@
-const express = require('express')
-const app = new express()
-const mongoose = require('mongoose')
-const User = require('./model/user')
-var multer = require('multer')
-const cors = require('cors')
-app.use(cors())
+const express = require("express");
+const app = new express();
+const mongoose = require("mongoose");
+const User = require("./model/user");
+var multer = require("multer");
+const cors = require("cors");
+app.use(cors());
 
 // token
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 //撒盐，加密时候混淆
-const secret = '113Bmongojsdalkfnxcvmas'
+const secret = "113Bmongojsdalkfnxcvmas";
 //生成token，info也就是payload是需要存入token的信息
 function createToken(info) {
   let token = jwt.sign(info, secret, {
     //Token有效时间 单位s
-    expiresIn: 30 * 60
-  })
-  return token
+    expiresIn: 30 * 60,
+  });
+  return token;
 }
 //验证Token
 function verifyToken(token) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, secret, (error, result) => {
       if (error) {
-        reject(error)
+        reject(error);
       } else {
-        resolve(result)
+        resolve(result);
       }
-    })
-  })
+    });
+  });
 }
 
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, 'uploads')
+    cb(null, "uploads");
   },
   filename: function(req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + file.originalname)
-  }
-})
+    cb(null, file.fieldname + "-" + Date.now() + file.originalname);
+  },
+});
 
-var upload = multer({ storage: storage })
+var upload = multer({ storage: storage });
 // var bodyParser = require('body-parser')
 
 // app.use(bodyParser.urlencoded({ extended: false }))
-app.use('/uploads', express.static('uploads'))
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
+app.use("/uploads", express.static("uploads"));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // 拉去用户信息
 // app.get('/user/info', function(req, res) {
@@ -64,69 +64,66 @@ app.use(express.json())
 // })
 
 // 图片上传
-app.post('/upload', upload.single('avatar'), function(req, res, next) {
+app.post("/upload", upload.single("avatar"), function(req, res, next) {
   res.json({
     code: 20000,
-    msg: '图片上传成功',
-    path: req.file.path
-  })
-})
+    msg: "图片上传成功",
+    path: req.file.path,
+  });
+});
 
 //注册
-app.post('/user/register', async (req, res) => {
-  const resultss = await User.find({ username: req.body.username })
-  const user = new User(req.body)
+app.post("/user/register", async (req, res) => {
+  const resultss = await User.find({ username: req.body.username });
+  const user = new User(req.body);
 
   if (resultss.length > 0) {
     res.json({
       code: 20001,
-      msg: '用户名重复请重试'
-    })
+      msg: "用户名重复请重试",
+    });
   } else {
-    var results = await user.save()
+    var results = await user.save();
     res.json({
       code: 20000,
-      msg: '注册成功'
-    })
+      msg: "注册成功",
+    });
   }
-})
+});
 
-// 登录
-// app.post('/user/login', function(req, res) {
-//   console.log(req.body.username)
-//   const result = User.find({ username: req.body.username })
-//   // mongoose.connect('mongodb://localhost:27017/user').then(mon => {
-//   //   const users = new User(req.body)
-//   //   console.log(users)
-//   // })
-//   let token = createToken(req.body)
-//   res.json({
-//     code: 20000,
-//     msg: '登陆成功',
-//     token
-//   })
-// })
-//登陆
-
-app.post('/user/login', async (req, res) => {
-  const result = await User.find()
-  const username1 = req.body.username
-  const password1 = req.body.password
-  result.forEach(item => {
-    if (item.username === username1 && item.password === password1) {
+//登陆------------------------------------------------------------------
+app.post("/login", async (req, res) => {
+  const result = await User.find();
+  console.log(req.body.username);
+  result.forEach((item) => {
+    if (
+      item.username === req.body.username &&
+      item.password === req.body.password
+    ) {
+      var token = createToken(req.body);
+      console.log("key");
       res.json({
         code: 20000,
-        msg: '登陆成功',
-        result
-      })
-    } else {
+        msg: "登陆成功",
+        token,
+        // result,
+      });
+    }
+  });
+  result.forEach((item) => {
+    // item;
+    console.log(req.body.username);
+    if (
+      item.username !== req.body.username &&
+      item.password !== req.body.password
+    ) {
       res.json({
         code: 20001,
-        msg: '登陆失败，请检查账号'
-      })
+        msg: "账号或者密码错误",
+      });
     }
-  })
-})
+  });
+});
 // 移动端登录接口（简易接口）
 // app.post('/user/login', async (req, res) => {
 //   console.log(req.body)
@@ -141,62 +138,79 @@ app.post('/user/login', async (req, res) => {
 
 // const { roles, name, avatar, introduction } = data
 // 退出登录
-app.post('/user/logout', function(req, res) {
-  res.json({ code: 20000, message: 'success' })
-})
+app.post("/user/logout", function(req, res) {
+  res.json({ code: 20000, message: "success" });
+});
+// 头像上传
+// app.get("/userss", async (req, res) => {
+//   const resultss = await User.find({ username: req.body.username });
+//   // const user = new User(req.body);
+
+//   if (resultss.length > 0) {
+//     res.json({
+//       code: 20001,
+//       msg: "1",
+//       list: resultss,
+
+//     });
+//   }
 // 获取用户列表
-app.get('/users', (req, res) => {
-  const start = req.query.start ? Number(req.query.start) : 0
-  const end = req.query.end ? Number(req.query.end) : 0
-  console.log(start, end)
-  mongoose.connect('mongodb://localhost:27017/user').then(async mon => {
-    console.log('数据库连接成功')
-    const num = await User.find()
-    const result = await User.find()
-      .skip(start)
-      .limit(end)
-    res.json({
-      code: 20000,
-      msg: '获取城市数据成功',
-      list: result,
-      total: num.length
-    })
-  })
-})
+app.get("/users", async (req, res) => {
+  console.log(req.query.username);
+  const resultss = await User.find({ username: req.query.username });
+  const start = req.query.start ? Number(req.query.start) : 0;
+  const end = req.query.end ? Number(req.query.end) : 0;
+  console.log(start, end);
+  if (resultss.length > 0) {
+    mongoose.connect("mongodb://localhost:27017/user").then(async (mon) => {
+      console.log("数据库连接成功");
+      const num = await User.find();
+      const result = await User.find({ username: req.query.username })
+        .skip(start)
+        .limit(end);
+      res.json({
+        code: 20000,
+        msg: "获取城市数据成功",
+        list: resultss,
+        total: num.length,
+      });
+    });
+  }
+});
 // 删除用户
-app.post('/user/delete/:id', (req, res) => {
-  const id = req.params.id
-  mongoose.connect('mongodb://localhost:27017/user').then(async mon => {
-    User.findByIdAndDelete(id).then(result => {
+app.post("/user/delete/:id", (req, res) => {
+  const id = req.params.id;
+  mongoose.connect("mongodb://localhost:27017/user").then(async (mon) => {
+    User.findByIdAndDelete(id).then((result) => {
       if (result) {
         res.json({
           code: 20000,
-          msg: '删除电影成功'
-        })
+          msg: "删除电影成功",
+        });
       }
-    })
-  })
-})
+    });
+  });
+});
 
 // 测试轮播图
-app.get('/lunbo', (req, res) => {
+app.get("/lunbo", (req, res) => {
   const list = [
     {
-      imgurl: 'http://localhost:8888/uploads/1.jpg'
+      imgurl: "http://localhost:8888/uploads/1.jpg",
     },
     {
-      imgurl: 'http://localhost:8888/uploads/2.jpg'
+      imgurl: "http://localhost:8888/uploads/2.jpg",
     },
     {
-      imgurl: 'http://localhost:8888/uploads/3.jpg'
-    }
-  ]
+      imgurl: "http://localhost:8888/uploads/3.jpg",
+    },
+  ];
   res.json({
     code: 200,
-    msg: 'success',
-    list: list
-  })
-})
+    msg: "success",
+    list: list,
+  });
+});
 // // 登录
 // app.post('/user/login', (req, res) => {
 //   console.log(req.body)
@@ -227,4 +241,4 @@ app.get('/lunbo', (req, res) => {
 //   })
 // })
 
-app.listen(8888, '127.0.0.1')
+app.listen(8888, "127.0.0.1");
