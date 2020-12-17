@@ -4,7 +4,7 @@
             <div class="biaotou">
             <ul class="herder">
                 <li class="dizhi" @click="clickHandel">
-                    <span>郑州</span>
+                    <span>{{this.id}}</span>
                     <van-icon name="arrow-down" />
                 </li>
             <li>
@@ -56,6 +56,7 @@ export default {
     },
     created() {
         // this.$router.push('/movie/main')
+        this.id = this.$route.query.id
     },
 
     mounted() {
