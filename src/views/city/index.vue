@@ -29,28 +29,27 @@
       </ul>
     </div>
     <van-index-bar v-for="item in list" :key="item.cityId">
-      <van-index-anchor  />
-      <van-cell @click="id(item.name)" :title=item.name />
+      <van-index-anchor />
+      <van-cell @click="id(item.name, item.cityId)" :title="item.name" />
     </van-index-bar>
   </div>
 </template>
 
 <script>
-import { Toast } from 'vant';
-import axios from 'axios';
+import { Toast } from "vant";
+import axios from "axios";
 
 export default {
   data() {
     return {
-      value:'',
+      value: "",
       cityList: [],
     };
-    list:[]
+    list: [];
   },
-  created(){
+  created() {
     axios({
-      url:
-        "https://m.maizuo.com/gateway?k=1004439",
+      url: "https://m.maizuo.com/gateway?k=1004439",
       headers: {
         "X-Client-Info":
           '{"a":"3000","ch":"1002","v":"5.0.4","e":"16079328292105148155363329"}',
@@ -58,7 +57,7 @@ export default {
       },
     }).then((res) => {
       this.cityList = res.data.data.cities;
-        // console.log(this.cityList)
+      // console.log(this.cityList);
     });
   },
   methods: {
@@ -69,21 +68,20 @@ export default {
       Toast(val);
     },
     onCancel() {
-      Toast('取消');
+      Toast("取消");
     },
-    id(id){
+    id(id, cid) {
       this.$router.push({
-        name:'Movie',
-        query:{id}
-      })
-    }
+        name: "Movie",
+        query: { id: id, cid: cid },
+      });
+    },
   },
-  computed:{
-    list(){
-      return this.cityList.filter(
-        (item)=>item.name.indexOf(this.value)>-1)
-    }
-  }
+  computed: {
+    list() {
+      return this.cityList.filter((item) => item.name.indexOf(this.value) > -1);
+    },
+  },
 };
 </script>
 
@@ -103,22 +101,22 @@ h4 {
   margin-left: 7rem;
   margin-top: 0.5rem;
 }
-.remen0{
-  width: 23.rem;
+.remen0 {
+  width: 23rem;
   height: 8rem;
 }
-.remen{
+.remen {
   font-size: 0.8rem;
   color: #666;
   margin-left: 1rem;
 }
-.remenul li{
+.remenul li {
   float: left;
   width: 5rem;
   margin-top: 1rem;
   margin-left: 2rem;
 }
-.remenul li button{
+.remenul li button {
   width: 4rem;
   height: 1.5rem;
 }

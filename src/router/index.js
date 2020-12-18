@@ -30,11 +30,17 @@ const routes = [
         path: "round",
         component: () => import("../views/movie/round/index.vue"),
       },
-      {
-        path: "detail",
-        component: () => import("../views/movie/detail/index.vue"),
-      },
     ],
+  },
+  {
+    path: "/detail",
+    name: "Detail",
+    component: () => import("../views/detail/index.vue"),
+  },
+  {
+    path: "/address",
+    name: "Address",
+    component: () => import("../views/address/index.vue"),
   },
   {
     path: "/cinema",

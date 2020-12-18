@@ -98,15 +98,14 @@ export default {
   components: {},
 };
 </script>
-
-<style lang="scss">
+<style lang="scss" scoped>
 * {
   margin: 0;
   padding: 0;
 }
-#app{
+/* #app {
   display: flex;
   // align-items: ;
   justify-content: center;
-}
+} */
 </style>

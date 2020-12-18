@@ -8,13 +8,6 @@
         @click-left="onClickLeft"
       />
     </van-sticky>
-    <!-- <div class="goback">
-      <img
-        @click="goback"
-        src="https://m.xiaomiyoupin.com/youpin/static/m/res/images/icons/icon_arrow_left_min_circle_gray.png"
-        alt=""
-      />
-    </div> -->
     <div class="content">
       <div class="banner">
         <img :src="info.poster" alt="" />
@@ -37,11 +30,6 @@
         <div class="film-runtime">
           {{ info.nation }} | {{ info.runtime }}分钟
         </div>
-        <!-- <el-collapse >
-          <el-collapse-item :title="txt" name="1" class="itemTitle minHeight">
-            <div>{{txtcontent}}</div>
-          </el-collapse-item>
-        </el-collapse> -->
         <van-collapse v-model="activeNames">
           <van-collapse-item :title="txt" name="1"
             ><div>{{ txtcontent }}</div></van-collapse-item
@@ -55,18 +43,14 @@
         </div>
         <div class="actors-list">
           <ul>
-            <li v-for="(i, index) in info.actors" :key="index">
+            <li
+              v-for="(i, index) in info.actors"
+              :key="index"
+              style="width: 85px; min-width: 85px;"
+            >
               <dl>
                 <dt><img :src="i.avatarAddress" alt="" /></dt>
-                <dd
-                  style="margin-top:5px;
-                    max-width: 85px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;"
-                >
-                  {{ i.name }}
-                </dd>
+                <dd style="margin-top:5px">{{ i.name }}</dd>
                 <dd class="duty">{{ i.role }}</dd>
               </dl>
             </li>
@@ -77,29 +61,27 @@
       <div class="photos">
         <div class="photos-name">
           <span class="photos-title">剧照</span>
-          <span class="photos-all"
-            >全部(5)<i class="el-icon-arrow-right"></i
-          ></span>
+          <span class="photos-all">全部(5)</span>
         </div>
         <div class="photos-list">
-          <ul style="text-align:center;line-height=100px">
+          <ul>
             <li v-for="(i, index) in info.photos" :key="index">
-              <div class="demo-image__preview">
-                <img :src="i" alt="" />
-                <!-- <div
-                  class="img_box"
-                  v-for="(item2, index) of images"
-                  :key="index"
-                >
-                  <img :src="item2" alt="" @click="getImg(index)" />
-                </div> -->
-              </div>
+              <img :src="i" alt="" />
+              <div class="demo-image__preview"></div>
             </li>
           </ul>
         </div>
       </div>
-      <div class="line"></div>
-      <router-link :to="{ path: '/movie/film', query: { id: 'info.filmId' } }">
+      <router-link
+        :to="{
+          name: 'Address',
+          query: {
+            id: info.filmId,
+            title: info.name,
+            cid: this.$route.query.cid,
+          },
+        }"
+      >
         <div class="goSchedule">选座购票</div>
       </router-link>
     </div>
@@ -153,9 +135,9 @@ export default {
     });
   },
   methods: {
-    goback() {
+    /* goback() {
       this.$router.go(-1);
-    },
+    }, */
     onClickLeft() {
       this.$router.go(-1);
     },
@@ -266,14 +248,7 @@ ul li {
   margin-top: 4px;
   margin-bottom: 10px;
 }
-.el-collapse-item #el-collapse-head-9677 {
-  height: 70px;
-  line-height: 20px;
-}
 
-.minHeight >>> .el-collapse-item__header {
-  line-height: 20px !important;
-}
 .line {
   height: 10px;
   margin-top: 10px;
@@ -291,8 +266,6 @@ ul li {
   line-height: 22px;
 }
 .actors-list {
-  height: 165px;
-  flex: 1;
   overflow-x: auto;
   overflow-y: hidden;
 }
@@ -303,22 +276,18 @@ ul li {
   position: relative;
   width: 100%;
 }
-.actors-list ul li {
-  list-style: none;
-  width: 85px;
-  min-width: 85px;
-  margin-right: 10px;
-}
 .actors-list li dl {
   text-align: center;
+  padding-left: 5px;
 }
 .actors-list li dt img {
   width: 100%;
 }
-.actors-list li dl .duty {
-  font-size: 10px;
-  color: #797d82;
-  margin-bottom: 10px;
+li dl dd {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 }
 ::-webkit-scrollbar {
   width: 0 !important;
@@ -329,48 +298,37 @@ ul li {
 }
 .photos {
   margin-top: 10px;
-  margin-bottom: 60px;
 }
 .photos-name {
-  height: 42px;
-}
-.photos-title {
-  font-size: 16px;
-  text-align: left;
-  color: #191a1b;
-  display: inline-block;
-  height: 22.5px;
-  line-height: 22px;
-}
-.photos-all {
-  font-size: 13px;
-  color: #797d82;
-  float: right;
-  display: inline-block;
-  height: 22.5px;
-  line-height: 22px;
-}
-.photos-title {
-  height: 115px;
-}
-.photos-list ul {
+  height: 32px;
   display: flex;
+  justify-content: space-between;
+}
+.photos-list {
   flex: 1;
   overflow-x: auto;
   overflow-y: hidden;
-  justify-content: flex-start;
-  align-items: center;
 }
-.photos-list ul li,
-.demo-image__preview {
+.photos-list ul {
+  display: flex;
+  /* flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden; */
+}
+.photos-list ul li {
   min-width: 150px;
   height: 100px;
   margin-right: 10px;
 }
+.photos-list ul li {
+  margin-bottom: 60px;
+}
 .photos-list ul li img {
   width: 100%;
   height: 100%;
+  margin-bottom: 30px;
 }
+
 .goSchedule {
   z-index: 99;
   position: fixed;

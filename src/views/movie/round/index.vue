@@ -90,7 +90,7 @@ export default {
     clickHandel(id) {
       console.log(id);
       this.$router.push({
-        path: "detail",
+        name: "Detail",
         query: { id: id },
       });
     },
@@ -99,10 +99,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.kapian:first-child {
+  margin-top: 100px;
+}
+.kapian:last-child {
+  margin-bottom: 70px;
+}
 .kapian {
   width: 100%;
-  min-height: 2rem;
-  margin-left: 1rem;
+  /* min-height: 2rem;
+  margin-left: 1rem;*/
   margin: 0.5rem auto;
   // background: yellow;
   border-bottom: solid 1px rgb(204, 202, 202);

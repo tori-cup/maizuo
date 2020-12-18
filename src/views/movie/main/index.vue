@@ -18,7 +18,11 @@
       </li>
 
       <li class="goumai">
-        <button>购票</button>
+        <router-link
+          :to="{ name: 'Address', query: { id: item.filmId, cid: id } }"
+        >
+          <button>购票</button>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -35,6 +39,7 @@ export default {
       activeName: "first",
       looplist: "",
       hotlist: "",
+      id: "",
     };
   },
   filters: {
@@ -58,6 +63,8 @@ export default {
     },
   },
   created() {
+    this.id = this.$route.query.cid;
+    console.log(this.$route.query.cid);
     /* axios({
         url: "https://m.maizuo.com/gateway?cityId=410100&pageNum=1&pageSize=10&type=1&k=2325598",
         headers: {
@@ -96,8 +103,8 @@ export default {
     clickHandel(id) {
       console.log(111);
       this.$router.push({
-        path: "detail",
-        query: { id: id },
+        name: "Detail",
+        query: { id: id, cid: this.id },
       });
     },
   },
@@ -105,10 +112,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main {
+  overflow: hidden;
+}
+.kapian:first-child {
+  margin-top: 100px;
+}
+.kapian:last-child {
+  margin-bottom: 70px;
+}
 .kapian {
-  width: 100%;
-  min-height: 2rem;
-  margin-left: 1rem;
+  // width: 100%;
+  /* min-height: 2rem;
+  margin-left: 1rem; */
   margin: 0.5rem auto;
   // background: yellow;
   border-bottom: solid 1px rgb(204, 202, 202);
